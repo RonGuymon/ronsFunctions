@@ -3,7 +3,7 @@
 #'
 #' It essentially draws a line from the least number of clusters to the max number of clusters and then calculates the point that's the farthest away from that line.
 #'
-#' It assumes all columns are already numeric values.
+#' It assumes all columns are already numeric values.The columns used in the dataframe must already be numeric values, and they should already be standardized.
 #'
 #' It's heavily dependent on the max number of clusters. A larger nc will have a higher accuracy.
 #' @param data The name of the dataframe whose columns will be clustered.

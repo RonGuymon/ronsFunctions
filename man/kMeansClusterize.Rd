@@ -16,7 +16,7 @@ kMeansClusterize(clusterData, appendDataTo, nc = 5, heatMap = F,
 
 \item{heatMap}{True/False indicator if you want to display a heatmap of cluster centroids. Defaults to False.}
 
-\item{corrplot}{True/False indicator for displaying a correlation plot of cluster centroids. Defaults to False.}
+\item{corrplot}{True/False indicator for displaying a correlation plot of columns. Defaults to False.}
 }
 \value{
 New column to a dataframe, and optional plots.
@@ -25,5 +25,7 @@ New column to a dataframe, and optional plots.
 This will create a new column, called "clusterNum", with a numeric value for each row of data. It assumes that the first column has the identifying information, and that the rest of the columns are numeric.
 
 It automatically removes columns that have 0 variation, and abbreviates the column names.
+
+The columns used in the dataframe must already be numeric values, and they should already be standardized.
 }
 

@@ -2,11 +2,13 @@
 #' @description This will create a new column, called "clusterNum", with a numeric value for each row of data. It assumes that the first column has the identifying information, and that the rest of the columns are numeric.
 #'
 #' It automatically removes columns that have 0 variation, and abbreviates the column names.
+#'
+#' The columns used in the dataframe must already be numeric values, and they should already be standardized.
 #' @param clusterData The name of the dataframe whose columns will be clustered. The first column should be the primary key.
 #' @param appendDataTo The name of the dataframe to which the "clusterNum" column will be added.
 #' @param nc The number of clusters to create. Defaults to 5.
 #' @param heatMap True/False indicator if you want to display a heatmap of cluster centroids. Defaults to False.
-#' @param corrplot True/False indicator for displaying a correlation plot of cluster centroids. Defaults to False.
+#' @param corrplot True/False indicator for displaying a correlation plot of columns. Defaults to False.
 #' @return New column to a dataframe, and optional plots.
 #' @export
 kMeansClusterize <- function(clusterData, appendDataTo, nc = 5, heatMap = F, corrplot = F){
@@ -37,7 +39,7 @@ kMeansClusterize <- function(clusterData, appendDataTo, nc = 5, heatMap = F, cor
   if(corrplot == T){
     dev.new()
     M <- cor(cluster.out$centers)
-    corrplot(M, method = "square", order = "hclust", addrect = nc) # Addrect draws rectangles around clusters.
+    corrplot(M, method = "pie", order = "hclust", addrect = 2) # Addrect draws rectangles around clusters. Since this is hierarchical clustering, it can't have more than the number of columns.
   }
 
   if(heatMap == T){

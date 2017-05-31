@@ -1,0 +1,15 @@
+Package: ronsFunctions
+Type: Package
+Title: Ron's favorite functions
+Version: 0.1.0
+Author: Ronald Guymon <ron@numetric.com>
+Maintainer: Ronald Guymon <ron@numetric.com>
+Description: This is a collection of functions that Ron has made.
+License: None
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr (>= 0.5.0), 
+    ggplot2 (>= 2.2.1),
+    readxl (>= 0.1.1),
+    corrplot(>= 0.77)
+RoxygenNote: 5.0.1

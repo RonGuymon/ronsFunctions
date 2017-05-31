@@ -39,12 +39,12 @@ kMeansClusterize <- function(clusterData, appendDataTo, nc = 5, heatMap = F, cor
   if(corrplot == T){
     dev.new()
     M <- cor(cluster.out$centers)
-    corrplot(M, method = "pie", order = "hclust", addrect = 2) # Addrect draws rectangles around clusters. Since this is hierarchical clustering, it can't have more than the number of columns.
+    corrplot::corrplot(M, method = "pie", order = "hclust", addrect = 2) # Addrect draws rectangles around clusters. Since this is hierarchical clustering, it can't have more than the number of columns.
   }
 
   if(heatMap == T){
       dev.new()
-      heatmap3(as.matrix(cluster.out$centers),
+      heatmap3::heatmap3(as.matrix(cluster.out$centers),
                scale="column",
                col=heat.colors(256),
                cexRow = 1,

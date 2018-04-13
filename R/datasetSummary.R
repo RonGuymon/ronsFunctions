@@ -18,15 +18,15 @@ datasetSummary <- function(dataframe){
         class = class(temp),
         uniqueKey = ifelse(nrow(table(temp) %>% as.data.frame(stringsAsFactors = F)) == length(temp), "Yes", "No"),
         uniqueValues = nrow(table(temp) %>% as.data.frame(stringsAsFactors = F)),
-        top5UniqueValues = table(temp) %>% as.data.frame(stringsAsFactors = F) %>% dplyr::arrange(-Freq) %>% .[1:5,1] %>% paste(collapse = "||"),
+        top5UniqueValues = table(temp) %>% as.data.frame(stringsAsFactors = F) %>% dplyr::arrange(-Freq) %>% mutate(temp = round(as.numeric(temp), 2)) %>% .[1:5,1] %>% paste(collapse = "||"),
         uniqueValuesPct = round(nrow(table(temp) %>% as.data.frame())/length(temp), 2),
         NAs_and_blanks = temp[which(temp == "" | is.na(temp))] %>% length(),
         NAs_and_blanksPct = temp[which(temp == "" | is.na(temp))] %>% length() / length(temp),
         mode = table(temp) %>% as.data.frame(stringsAsFactors = F) %>% dplyr::arrange(-Freq) %>% .[1,1] %>% as.character(),
-        max = max(temp, na.rm = T) %>% as.character(),
-        mean = mean(temp, na.rm = T) %>% as.character(),
-        median = median(temp, na.rm = T) %>% as.character(),
-        min = min(temp, na.rm = T) %>% as.character()
+        max = max(temp, na.rm = T) %>% round(2) %>% as.character(),
+        mean = mean(temp, na.rm = T) %>% round(2)  %>% as.character(),
+        median = median(temp, na.rm = T) %>% round(2)  %>% as.character(),
+        min = min(temp, na.rm = T) %>% round(2)  %>% as.character()
         , stringsAsFactors = F
       )
     } else if(class(temp)[1] %in% c("POSIXct", "POSIXt", "Date", "Date", "POSIXlt")){

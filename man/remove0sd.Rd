@@ -15,4 +15,3 @@ Dataframe.
 \description{
 Useful for analyses that assume variation in every column of a dataframe.
 }
-

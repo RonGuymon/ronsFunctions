@@ -28,4 +28,3 @@ It automatically removes columns that have 0 variation, and abbreviates the colu
 
 The columns used in the dataframe must already be numeric values, and they should already be standardized.
 }
-

@@ -17,4 +17,3 @@ Dataframe
 \description{
 Remove columns that exceed a specified percentage of missing values. The default is set to remove anything above 85%.
 }
-

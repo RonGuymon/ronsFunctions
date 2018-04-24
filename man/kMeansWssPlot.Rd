@@ -19,4 +19,3 @@ Useful for eyeballing the elbow point for determining the optimal number of clus
 
 The columns used in the dataframe must already be numeric values, and they should already be standardized.
 }
-

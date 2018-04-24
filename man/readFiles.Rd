@@ -15,4 +15,3 @@ Dataframe
 \description{
 Useful if you have a folder with many instances of essentially the same dataframe. This assumes that all of the files are tidy datasets.
 }
-

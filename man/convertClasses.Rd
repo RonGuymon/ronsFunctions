@@ -17,4 +17,3 @@ Dataframe.
 \description{
 Useful when trying to bind rows of a dataset that has the same column names of another dataset, but different classes.
 }
-

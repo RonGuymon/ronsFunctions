@@ -24,4 +24,3 @@ Densit plot.
 \description{
 This is useful for getting a quick idea of the distribution of a column of data. It also draws a line for the median.
 }
-

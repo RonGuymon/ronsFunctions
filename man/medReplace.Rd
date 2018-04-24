@@ -17,4 +17,3 @@ This is useful for data that has missing values and for which it makes sense to 
 
 Especially useful when used with dplyr::group_by so that you can replace missing values with medians from the same strata.
 }
-

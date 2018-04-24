@@ -12,4 +12,3 @@ shortenStates(stateColumn)
 \description{
 Useful for messy data in which some rows contain full state names, and others contain the two letter abbreviation.
 }
-

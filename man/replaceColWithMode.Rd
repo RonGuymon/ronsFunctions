@@ -16,4 +16,3 @@ Works with numeric or categorical columns
 
 Especially useful when used with dplyr::group_by so that you can replace missing values with medians from the same strata.
 }
-

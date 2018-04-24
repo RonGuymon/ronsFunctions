@@ -17,4 +17,3 @@ Converts all columns of a dataframe to character class, and also converts NAs to
 
 I used to use this a lot, but not so much anymore.
 }
-

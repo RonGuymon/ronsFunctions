@@ -17,4 +17,3 @@ Perhaps a more concise summary of a dataframe relative to base::summary(df).
 
 It includes information about the modal value for character and factor classes. It also identifies columns that could be a primary key
 }
-

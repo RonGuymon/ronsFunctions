@@ -15,4 +15,3 @@ Plot
 \description{
 Returns a histogram with a bar for each column in the dataframe. The height is the percent missing.
 }
-

@@ -23,4 +23,3 @@ It assumes all columns are already numeric values.The columns used in the datafr
 
 It's heavily dependent on the max number of clusters. A larger nc will have a higher accuracy.
 }
-

@@ -17,4 +17,3 @@ A string with a list of numbers.
 \description{
 This was created to find a combination of check deposits that add up to a total deposit amount.
 }
-

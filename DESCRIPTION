@@ -2,8 +2,8 @@ Package: ronsFunctions
 Type: Package
 Title: Ron's favorite functions
 Version: 0.1.0
-Author: Ronald Guymon <ron@numetric.com>
-Maintainer: Ronald Guymon <ron@numetric.com>
+Author: Ronald Guymon <ron@datavinci.io>
+Maintainer: Ronald Guymon <ron@datavinci.io>
 Description: This is a collection of functions that Ron has made.
 License: None
 Encoding: UTF-8

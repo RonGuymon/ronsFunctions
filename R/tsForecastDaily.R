@@ -152,7 +152,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, period = 28, seasonalPe
   if(returnYoyPlot == T){
     yoySales <- dataFor %>%
       dplyr::arrange(begDay, type) %>%
-      mutate(
+      dplyr::mutate(
         keep = ifelse(begDay == lead(begDay), 0, 1)
         , Year = lubridate::year(begDay)
         , Year = ifelse(type == "Forecast", paste(Year, type, sep = " "), Year) %>% factor()

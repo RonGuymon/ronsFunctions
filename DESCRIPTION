@@ -6,6 +6,7 @@ Author: Ronald Guymon <ron@datavinci.io>
 Maintainer: Ronald Guymon <ron@datavinci.io>
 Description: This is a collection of functions that Ron has made.
 License: None
+Depends: R (>= 3.4.4)
 Encoding: UTF-8
 LazyData: true
 Imports: 

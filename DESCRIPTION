@@ -12,5 +12,8 @@ Imports: dplyr (>= 0.5.0),
     ggplot2 (>= 2.2.1),
     readxl (>= 0.1.1),
     corrplot (>= 0.77),
-    heatmap3 (>= 1.1.1)
+    heatmap3 (>= 1.1.1),
+    forecast (>= 8.2.0),
+    rpart (>= 4.1-13),
+    ggforce (>= 0.1.1)
 RoxygenNote: 5.0.1

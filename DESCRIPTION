@@ -11,9 +11,8 @@ LazyData: true
 Imports: 
     corrplot (>= 0.84)
     , dplyr (>= 0.7.4)
-    , forecast (>= 8.3)
     , heatmap3 (>= 1.1.1)
     , magrittr (>= 1.5)
     , readxl (>= 1.1.0)
-    , rpart (>= 4.13)
+    , rpart (>= 4.1-13)
 RoxygenNote: 6.0.1

@@ -9,11 +9,9 @@ License: None
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    Cairo (>= 1.5)
-    , corrplot (>= 0.84)
+    corrplot (>= 0.84)
     , dplyr (>= 0.7.4)
     , forecast (>= 8.3)
-    , ggforce (>= 0.1.1)
     , ggplot2 (>= 2.2.1.9000)
     , heatmap3 (>= 1.1.1)
     , magrittr (>= 1.5)

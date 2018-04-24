@@ -143,7 +143,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, period = 28, seasonalPe
   if(returnMePlot == T){
     modelEvalPlot <- ggplot2::ggplot(dataFor, aes(x = begDay, y = TotalSales, color = type)) +
       geom_line(alpha = 0.75) +
-      ggforce::facet_zoom(x = begDay %in% c(tsAll$begDay[rowTestStart:rowTestEnd], tsAll$begDay[rowTestStart:rowTestEnd] + days(period)), zoom.size = 1.2) +
+      # ggforce::facet_zoom(x = begDay %in% c(tsAll$begDay[rowTestStart:rowTestEnd], tsAll$begDay[rowTestStart:rowTestEnd] + days(period)), zoom.size = 1.2) +
       labs(x = "Date", y = "Total Sales", title = "Forecast from RPART", subtitle = paste0("Mean absolute percentage error for RPART = ", rpartMape, "%."))
 
     outputList$modelEvalPlot <- modelEvalPlot

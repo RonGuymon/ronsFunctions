@@ -46,7 +46,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, period = 28, seasonalPe
 
   # Get double or triple season fourier terms----
   seasonalPeriods <- c(seasonalPeriods, period) %>% .[order(.)]
-  dataMsts <- msts(tsAll$TotalSales[1:rowTrainEnd], seasonal.periods = seasonalPeriods) # Create multiple seasonal objects. Use one for each period that is influential. E.g., 7 if a week before is influential, 364 if a year before is influential, etc.
+  dataMsts <- forecast::msts(tsAll$TotalSales[1:rowTrainEnd], seasonal.periods = seasonalPeriods) # Create multiple seasonal objects. Use one for each period that is influential. E.g., 7 if a week before is influential, 364 if a year before is influential, etc.
   # K is the number of fourier terms. More is better, but takes exponentially longer.
   fuur <- fourier(dataMsts, K = rep(K, times = length(seasonalPeriods))) # If K is 2, then it made two pairs of sine and cosine signals for each seasonal.period. The resulting matrix will have the same number of rows as the training matrix, and # of seasonal.periods * 2 * K columns
 

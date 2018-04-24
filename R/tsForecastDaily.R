@@ -12,7 +12,7 @@
 #' @param returnYoyPlot Return the year-over-year plot?
 #' @return List the contains a dataframe with the test, training, and forecasted data (dataFor), a dataframe with only the forecasted data (dataForOnly), mean absolute percentage error (mape), model evaluation plot (modelEvalPlot), and year over year dataframe including the forecast (yoySales).
 #' @export
-timeSeriesForecast <- function(df, dateColumn, valueColumn, period = 28, seasonalPeriods = c(7, 364), K = 2, returnMePlot = F, returnYoyPlot = F){
+tsForecastDaily <- function(df, dateColumn, valueColumn, period = 28, seasonalPeriods = c(7, 364), K = 2, returnMePlot = F, returnYoyPlot = F){
   outputList <- list()
   # Reorder and rename the columns
   df <- df[,c(dateColumn, valueColumn)]

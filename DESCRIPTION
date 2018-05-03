@@ -1,7 +1,7 @@
 Package: ronsFunctions
 Type: Package
 Title: Ron's favorite functions
-Version: 0.1.0
+Version: 0.1.1
 Author: Ronald Guymon <ron@datavinci.io>
 Maintainer: Ronald Guymon <ron@datavinci.io>
 Description: This is a collection of functions that Ron has made.
@@ -20,5 +20,4 @@ Imports:
     , magrittr (>= 1.5)
     , readxl (>= 1.1.0)
     , rpart (>= 4.1-13)
-    , randomForest (>= 4.6-12)
 RoxygenNote: 6.0.1

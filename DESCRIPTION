@@ -20,4 +20,5 @@ Imports:
     , magrittr (>= 1.5)
     , readxl (>= 1.1.0)
     , rpart (>= 4.1-13)
+    , randomForest (>= 4.6-12)
 RoxygenNote: 6.0.1

@@ -284,7 +284,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
                                    , rep("Test Data", rowTestEnd - rowTestStart + 1)
                                    , rep("Forecast", rowTestEnd - rowTestStart + period + 1)
                         ) %>%
-                          dplyr::mutate(TotalSales = round(TotalSales, 0))
+                          dplyr::mutate(TotalSales = as.numeric(TotalSales) %>% round(0))
   )
 
   algoLoss <- lossF(tsAll$TotalSales[rowTestStart:rowTestEnd], forecastedData) %>% round(2)

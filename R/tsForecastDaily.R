@@ -335,7 +335,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
   dataForOnly <- data.frame(begDay = tsAll$begDay[rowTestStart:rowTestEnd] + days(period)
                             , TotalSales = forecastedDataf
                             , stringsAsFactors = F) %>%
-    dplyr::mutate(TotalSales = round(TotalSales, 0))
+    dplyr::mutate(TotalSales = as.numeric() %>% round(0))
   colnames(dataForOnly) <- c(dateColumn, valueColumn)
   outputList$dataForOnly <- dataForOnly
 

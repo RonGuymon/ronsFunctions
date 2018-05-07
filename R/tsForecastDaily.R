@@ -132,7 +132,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
 
   # For the future
   trendPartf <- stats::ts(decompTsf[,2]) # The second column is the trend column.
-  if(covMatrixCols == "none"){
+  if(is.null(covs)){
     trendFitf <- forecast::auto.arima(trendPartf) # Fits arima model to the trend.
     trendForf <- forecast::forecast(trendFitf, period)$mean # Forecasts the trend out the number of days as the period
   }else{

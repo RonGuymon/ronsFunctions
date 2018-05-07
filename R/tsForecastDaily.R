@@ -19,9 +19,17 @@
 tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rpart", lossFunction = "mape", period = 28, seasonalPeriods = c(7, 364), K = 2, returnMePlot = F, returnYoyPlot = F){
   # covdf should be a dataframe that has at least two columns: date, and value of covariate that includes only future covariate observations
   outputList <- list()
+
   # Reorder and rename the columns
-  df <- df[,c(dateColumn, valueColumn, covMatrixCols)]
-  colnames(df) <- c("begDay", "TotalSales", covMatrixCols)
+  if(!is.null(covs)){
+    # If there is a covariance matrix, include its column names
+    covMatrixCols <- colnames(covs) %>% .[which(!. %in% "begDay")]
+    df <- df[,c(dateColumn, valueColumn, covMatrixCols)]
+    colnames(df) <- c("begDay", "TotalSales", covMatrixCols)
+  }else{
+    df <- df[,c(dateColumn, valueColumn)]
+    colnames(df) <- c("begDay", "TotalSales")
+  }
 
   # Make sure that there are no missing dates
   daties <- data.frame(begDay = seq.Date(from = min(df$begDay), to = max(df$begDay), by = "day"))

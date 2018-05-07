@@ -283,7 +283,8 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
                         , type = c(rep("Train Data", rowTrainEnd)
                                    , rep("Test Data", rowTestEnd - rowTestStart + 1)
                                    , rep("Forecast", rowTestEnd - rowTestStart + period + 1)
-                        )
+                        ) %>%
+                          dplyr::mutate(TotalSales = round(TotalSales, 0))
   )
 
   algoLoss <- lossF(tsAll$TotalSales[rowTestStart:rowTestEnd], forecastedData) %>% round(2)
@@ -333,7 +334,8 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
   # Only the forecast data
   dataForOnly <- data.frame(begDay = tsAll$begDay[rowTestStart:rowTestEnd] + days(period)
                             , TotalSales = forecastedDataf
-                            , stringsAsFactors = F)
+                            , stringsAsFactors = F) %>%
+    dplyr::mutate(TotalSales = round(TotalSales, 0))
   colnames(dataForOnly) <- c(dateColumn, valueColumn)
   outputList$dataForOnly <- dataForOnly
 

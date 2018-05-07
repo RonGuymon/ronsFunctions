@@ -207,7 +207,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
                                       , importance = T
     )
 
-    impd <- varImp(fit) %>%
+    impd <- caret::varImp(fit) %>%
       dplyr::mutate(
         varName = row.names(.)
       ) %>%
@@ -332,7 +332,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
   outputList$dataFor <- dataFor
   # Only the forecast data
   dataForOnly <- data.frame(begDay = tsAll$begDay[rowTestStart:rowTestEnd] + days(period)
-                            , TotalSales = forRpartf
+                            , TotalSales = forecastedDataf
                             , stringsAsFactors = F)
   colnames(dataForOnly) <- c(dateColumn, valueColumn)
   outputList$dataForOnly <- dataForOnly

@@ -184,7 +184,7 @@ tsForecastDaily <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rp
   }
 
   # Fit the model----
-  if(algo == "rapart"){
+  if(algo == "rpart"){
     fit <- rpart::rpart(TotalSales ~ ., data = matrixTrain
                         , control = rpart.control(minsplit = 2 # Minimum number of observations before a tree can be split. 2 is the min.
                                                   , maxdepth = 30 # Max depth of the tree. Max is 30.

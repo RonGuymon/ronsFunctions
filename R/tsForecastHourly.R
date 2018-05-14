@@ -11,7 +11,7 @@
 #' @param period The number of periods forecasted into the future.
 #' @param seasonalPeriods The other periods, in addition to the period parameter, that may be influential
 #' @param K The number of fourier terms. Must be one lesss than the number of periods
-#' @param returnMePlot Return the model evaluation plot? T = Yes.
+#' @param returnMePlot Return the model evaluation plot? T = Yes..
 #' @param returnYoyPlot Return the year-over-year plot? T = Yes.
 #' @return List the contains a dataframe with the test, training, and forecasted data (dataFor), a dataframe with only the forecasted data (dataForOnly), variable importance plot if randomForest is selected (viPlot), loss (either mape or mae), model evaluation plot (modelEvalPlot), and year over year dataframe including the forecast (yoySales).
 #' @export

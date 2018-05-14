@@ -7,7 +7,7 @@
 #' @param valueColumn The quoted name of the column that has the daily values to be forecasted.
 #' @param covs Optional. A dataframe of covariates. This dataframe should include at least two columns: (1) A date column with the number of rows equal to the number of periods to forecast into the future, and (2) a column with values for each day.
 #' @param algo Quoted name of algorithm to use. Defaults to rpart, which is fast. The other option is randomForest.
-#' @param lossFunction Defaults to "mape" (mean absolute percentage error). Other option is "mae" (mean absolute error).
+#' @param lossFunction Defaults to  "mape" (mean absolute percentage error). Other option is "mae" (mean absolute error).
 #' @param period The number of periods forecasted into the future.
 #' @param seasonalPeriods The other periods, in addition to the period parameter, that may be influential
 #' @param K The number of fourier terms. Must be one lesss than the number of periods

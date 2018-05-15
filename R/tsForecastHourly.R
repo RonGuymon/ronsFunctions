@@ -17,7 +17,7 @@
 #' @export
 #'
 tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "rpart", lossFunction = "mape", period = 28, seasonalPeriods = c(7, 364), K = 2, returnMePlot = F, returnYoyPlot = F){
-  # covdf should be a dataframe that has at least two columns: date, and value of covariate that includes only future covariate observations
+  # covdf should be aa dataframe that has at least two columns: date, and value of covariate that includes only future covariate observations
   outputList <- list()
 
   # Reorder and rename the columns

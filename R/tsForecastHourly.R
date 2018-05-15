@@ -82,10 +82,12 @@ tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "r
       bind_rows(., covs) %>% # Bind the future dates
       dplyr::select(-begDay)
     down <- model.matrix(~ as.factor(xReg$dow)) %>% .[,-1] # Dummify day of week into six columns
-    colnames(down) <- c("Mon", "Tue", "Wed", "Thr", "Fri", "Sat") # Rename
+    dowInData <- table(xReg$dow) %>% as.data.frame(stringsAsFactors = F) %>% .[-1,] %>% dplyr::arrange(Var1)
+    colnames(down) <- lubridate::wday(as.numeric(dowInData$Var1), label = T)
     xReg <- cbind(xReg, down) # Add to covariate matrix
     moyn <- model.matrix(~ as.factor(xReg$moy)) %>% .[,-1] # Dummify month of year into 11 columns
-    colnames(moyn) <- c("Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+    monthsInData <- table(xReg$moy) %>% as.data.frame(stringsAsFactors = T) %>% .[-1,] %>% dplyr::arrange(Var1)
+    colnames(moyn) <- lubridate::month(as.numeric(monthsInData$Var1))
     xReg <- cbind(xReg, moyn) %>% # Add to covariate matrix
       dplyr::select(-dow, -moy)
     xReg %<>% as.matrix(nrow = nrow(xReg), ncol = ncol(xReg))
@@ -104,6 +106,8 @@ tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "r
   decompTs <- stats::stl(dataTs, s.window = "periodic", robust = T)$time.series # Seasonal decomposition of time series by Loess. The time series portion returns a dataframe with the seasonal, trend, and remainder for each day.
   if(!is.null(covs)){
     xRegTrain <- xReg[1:rowTrainEnd,]
+    nzc <- nearZeroVar(xRegTrain)
+    xRegTrain <- xRegTrain[,-c(nzc)]
     # findLinearCombos(xRegTrain)
   }
 
@@ -112,6 +116,8 @@ tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "r
   decompTsf <- stats::stl(dataTsf, s.window = "periodic", robust = T)$time.series # Seasonal decomposition of time series by Loess. The time series portion returns a dataframe with the seasonal, trend, and remainder for each day.
   if(!is.null(covs)){
     xRegf <- xReg[1:rowTestEnd,]
+    nzc <- nearZeroVar(xRegf)
+    xRegf <- xRegf[,-c(nzc)]
   }
   # Get double or triple season fourier terms----
   seasonalPeriods <- c(seasonalPeriods, period) %>% .[order(.)]
@@ -131,7 +137,7 @@ tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "r
     trendFor <- forecast(trendFit, h = period)$mean # Forecasts the trend out the number of days as the period
   }else{
     trendFit <- auto.arima(trendPart, xreg = xRegTrain) # Fits arima model to the trend and also uses covariates.
-    trendFor <- forecast(trendFit, xreg = xReg[rowTestStart:rowTestEnd,])$mean # Forecasts the trend using covariates.
+    trendFor <- forecast(trendFit, xreg = xReg[rowTestStart:rowTestEnd,colnames(xRegTrain)])$mean # Forecasts the trend using covariates.
   }
 
 
@@ -144,7 +150,7 @@ tsForecastHourly <- function(df, dateColumn, valueColumn, covs = NULL, algo = "r
     trendForf <- forecast::forecast(trendFitf, period)$mean # Forecasts the trend out the number of days as the period
   }else{
     trendFitf <- forecast::auto.arima(trendPartf, xreg = xRegf) # Fits arima model to the trend.
-    trendForf <- forecast::forecast(trendFitf, xreg = xReg[(rowTestEnd+1):nrow(xReg),])$mean # Forecasts the trend out the number of days as the period
+    trendForf <- forecast::forecast(trendFitf, xreg = xReg[(rowTestEnd+1):nrow(xReg),colnames(xRegf)])$mean # Forecasts the trend out the number of days as the period
   }
 
 

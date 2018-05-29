@@ -6,6 +6,7 @@
 #' @export
 #'
 colorsToUse <- function(palette, type = "Discreet"){
+  # Alternative to Discreet is Fade
   palette <- tolower(palette)
 
   if(palette == "gigg"){

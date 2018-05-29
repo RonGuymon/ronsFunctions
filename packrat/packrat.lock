@@ -1,6 +1,6 @@
 PackratFormat: 1.4
-PackratVersion: 0.4.7.1
-RVersion: 3.4.4
+PackratVersion: 0.4.9.2
+RVersion: 3.5.0
 Repos: CRAN=https://cran.rstudio.com/
 
 Package: BH
@@ -12,6 +12,11 @@ Package: R6
 Source: CRAN
 Version: 2.2.2
 Hash: b2366cd9d2f3851a5704b4e192b985c2
+
+Package: RColorBrewer
+Source: CRAN
+Version: 1.1-2
+Hash: c0d56cd15034f395874c870141870c25
 
 Package: Rcpp
 Source: CRAN
@@ -56,6 +61,11 @@ Version: 1.0.0
 Hash: f4239f89feb7ddc65821e4514e9734ae
 Requires: assertthat, crayon
 
+Package: colorspace
+Source: CRAN
+Version: 1.3-2
+Hash: 0bf8618b585fa98eb23414cd3ab95118
+
 Package: commonmark
 Source: CRAN
 Version: 1.4
@@ -89,6 +99,11 @@ Hash: 80061b2ad6853fd3665bf883123a1b1a
 Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
     withr
 
+Package: dichromat
+Source: CRAN
+Version: 2.0-0
+Hash: 08eed0c80510af29bb15f840ccfe37ce
+
 Package: digest
 Source: CRAN
 Version: 0.6.15
@@ -106,6 +121,18 @@ Source: CRAN
 Version: 1.1.24
 Hash: 0372bda7a533d0e0f6105d70385642cb
 
+Package: ggforce
+Source: CRAN
+Version: 0.1.2
+Hash: bd1f1c31e029928d93b61cc6aefdc53d
+Requires: Rcpp, gtable, lazyeval, tweenr, units, scales, dplyr, ggplot2
+
+Package: ggplot2
+Source: CRAN
+Version: 2.2.1
+Hash: 46e5cb78836848aa44655e577433f54b
+Requires: digest, gtable, lazyeval, plyr, scales, reshape2, tibble
+
 Package: git2r
 Source: CRAN
 Version: 0.21.0
@@ -115,6 +142,11 @@ Package: glue
 Source: CRAN
 Version: 1.2.0
 Hash: 381e42baedecc633c0e547a0c7ca9de7
+
+Package: gtable
+Source: CRAN
+Version: 0.2.0
+Hash: cd78381a9d3fea966ac39bd0daaf5554
 
 Package: heatmap3
 Source: CRAN
@@ -133,6 +165,22 @@ Source: CRAN
 Version: 1.5
 Hash: 9c51936d8dd00b2f1d4fe9d10499694c
 
+Package: labeling
+Source: CRAN
+Version: 0.3
+Hash: ecf589b42cd284b03a4beb9665482d3e
+
+Package: lazyeval
+Source: CRAN
+Version: 0.2.1
+Hash: 88926ad9c43581fd0822a37c8ed09f05
+
+Package: lubridate
+Source: CRAN
+Version: 1.7.4
+Hash: eba8a5960185ac1f7eb8ce1abd1a745b
+Requires: Rcpp, stringr
+
 Package: magrittr
 Source: CRAN
 Version: 1.5
@@ -149,6 +197,12 @@ Source: CRAN
 Version: 0.5
 Hash: 463550cf44fb6f0a2359368f42eebe62
 
+Package: munsell
+Source: CRAN
+Version: 0.4.3
+Hash: f96d896947fcaf9b6d0074002e9f4f9d
+Requires: colorspace
+
 Package: openssl
 Source: CRAN
 Version: 1.0.1
@@ -156,8 +210,8 @@ Hash: e04b8ed7b05c1f75aa81c65a086b1d0c
 
 Package: packrat
 Source: CRAN
-Version: 0.4.7-1
-Hash: 16ca16d36eb18d1d16113606ecc5c400
+Version: 0.4.9-2
+Hash: 47dbd4e04dcd01da02a2021203205cb1
 
 Package: pillar
 Source: CRAN
@@ -175,16 +229,28 @@ Source: CRAN
 Version: 0.2.0
 Hash: 81a8008a5e7858552503935f1abe48aa
 
+Package: plyr
+Source: CRAN
+Version: 1.8.4
+Hash: 2d09eea8a6bcac8e61b6a8728917b877
+Requires: Rcpp
+
 Package: readxl
 Source: CRAN
 Version: 1.1.0
 Hash: 662d00d972d242ff41d5166685ecc951
-Requires: Rcpp, tibble, cellranger
+Requires: Rcpp, cellranger, tibble
 
 Package: rematch
 Source: CRAN
 Version: 1.0.1
 Hash: ad4faf59e7611117ff165817074c50c7
+
+Package: reshape2
+Source: CRAN
+Version: 1.4.3
+Hash: db7226b8ea11d02510f74d6a397959d6
+Requires: Rcpp, plyr, stringr
 
 Package: rlang
 Source: github
@@ -218,6 +284,13 @@ Source: CRAN
 Version: 0.7
 Hash: e2ebaff8160aff3e6b32e6e78a693c2d
 
+Package: scales
+Source: CRAN
+Version: 0.5.0
+Hash: de72bbfa723acfaa28bb99788a303987
+Requires: R6, RColorBrewer, Rcpp, dichromat, labeling, viridisLite,
+    plyr, munsell
+
 Package: stringi
 Source: CRAN
 Version: 1.1.7
@@ -235,10 +308,32 @@ Version: 1.4.2
 Hash: 83895360ce4f8d2ce92eee00526b5b0b
 Requires: crayon, rlang, cli, pillar
 
+Package: tweenr
+Source: CRAN
+Version: 0.1.5
+Hash: e4c7055865ec6b55b52a7578b2509de8
+Requires: Rcpp
+
+Package: udunits2
+Source: CRAN
+Version: 0.13
+Hash: 587587ec23c49271e0657fed726e7846
+
+Package: units
+Source: CRAN
+Version: 0.5-1
+Hash: 78ecb3bf0a01948df4a768a72c6edf75
+Requires: udunits2
+
 Package: utf8
 Source: CRAN
 Version: 1.1.3
 Hash: a2fe6a996668ee5850b7719f365e831b
+
+Package: viridisLite
+Source: CRAN
+Version: 0.3.0
+Hash: 78bb072c4f9e729a283d4c40ec93f9c6
 
 Package: whisker
 Source: CRAN

@@ -65,7 +65,7 @@ twitterUpdate <- function(screenName, directory){
       )
 
     # Only get the most recent 500 tweets
-    ttNew <- userTimeline(screenName, n=500, excludeReplies = T) %>%
+    ttNew <- userTimeline(screenName, n=500, excludeReplies = F) %>%
       twListToDF()
 
     ttNew2 <- ttNew %>%

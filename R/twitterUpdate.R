@@ -148,10 +148,15 @@ twitterUpdate <- function(screenName, directory){
       followers %<>%
         left_join(., nFollowers2, by = "screenName") %>%
         dplyr::filter(is.na(newData)) %>% # Only keep the new followers indicated by not having new data
-        bind_rows(., nFollowers) %>%
+        bind_rows(., nFollowers)
+      if(!"followerDate" %in% colnames(followers)){
+        followers$followingDate <- NA
+      }
+      followers %<>%
         dplyr::mutate(
           followerDate = case_when(
-            is.na(followerDateOrig) ~ dataTime
+            is.na(followerDateOrig) & !is.na(followerDate) ~ followerDate
+            , is.na(followerDateOrig) & is.na(followerDate) ~ dataTime
             , T ~ followerDateOrig
           )
         ) %>%
@@ -201,10 +206,15 @@ twitterUpdate <- function(screenName, directory){
       following %<>%
         left_join(., nFollowing2, by = "id") %>%
         dplyr::filter(is.na(newData)) %>%
-        bind_rows(., nFollowing) %>%
+        bind_rows(., nFollowing)
+      if(!"followingDate" %in% colnames(following)){
+        following$followingDate <- NA
+      }
+      following %<>%
         dplyr::mutate(
           followingDate = case_when(
-            is.na(followingDateOrig) ~ dataTime
+            is.na(followingDateOrig) & !is.na(followingDate) ~ followingDate
+            , is.na(followingDateOrig) & is.na(followingDate) ~ dataTime
             , T ~ followingDateOrig
           )
         ) %>%

@@ -14,6 +14,7 @@ twitterUpdate <- function(screenName, directory){
   statusList <- list()
   dir.create(directory, showWarnings = F) # Creates a directory if it doesn't already exist. If the directory already exists, then nothing happens.
   filesInDirectory <- list.files(directory) # Get a list of files in the directory
+  dataTime <- Sys.time() # To keep track of when following/followers were added
 
   ####### USER DESCRIPTION #######
   cat("Getting User description data for ", screenName, "\n")
@@ -67,34 +68,49 @@ twitterUpdate <- function(screenName, directory){
       )
 
     # Only get the most recent 500 tweets
-    ttNew <- userTimeline(screenName, n=500, excludeReplies = F) %>%
-      twListToDF()
+    ttNew <- userTimeline(screenName, n=500, excludeReplies = F)
 
-    ttNew2 <- ttNew %>%
-      dplyr::mutate(
-        new = "yes"
-      ) %>%
-      dplyr::select(id, new)
+    if(length(ttNew) > 0){
+      ttNew <- twListToDF(ttNew)
 
-    # Add the new tweets to the old ones and remove the old ones if they exist so that we have the most recent count of engagement
-    timelineTweets %<>%
-      left_join(., ttNew2, by = "id") %>%
-      dplyr::filter(is.na(new)) %>%
-      dplyr::select(-new) %>%
-      bind_rows(., ttNew) %>%
-      .[!duplicated(.$id),]
+      ttNew2 <- ttNew %>%
+        dplyr::mutate(
+          newData = "yes"
+          , myid  = paste0(text, as.character(created))
+        ) %>%
+        dplyr::select(myid, newData)
+
+      # Add the new tweets to the old ones and remove the old ones if they exist so that we have the most recent count of engagement
+      timelineTweets %<>%
+        dplyr::mutate(
+          myid  = paste0(text, as.character(created))
+        ) %>%
+        left_join(., ttNew2, by = "myid") %>%
+        dplyr::filter(is.na(newData)) %>%
+        dplyr::select(-newData, -myid) %>%
+        bind_rows(., ttNew) %>%
+        .[!duplicated(.$id),]
+    }
+
+
 
   }else{
     timelineTweets <- userTimeline(screenName, n=3200, excludeReplies = F) %>%
       twListToDF()
     maxID <- timelineTweets$id[nrow(timelineTweets)]
-    for(i in 1:50){
+    for(i in 1:25){
       cat(i, "######### GETTING TWEETS BEFORE", maxID, "\n")
-      temp <- userTimeline(screenName, n = 3200, maxID = maxID, excludeReplies = F) %>%
-        twListToDF()
-      maxID <- temp$id[nrow(temp)]
-      timelineTweets %<>% bind_rows(., temp)
-      cat("Tweets Retrieved:", nrow(temp), "Cum Tweets: ", nrow(timelineTweets), "\n")
+      tryCatch({
+        temp <- userTimeline(screenName, n = 3200, maxID = maxID, excludeReplies = F)
+        if(length(temp) > 0){
+          temp <- twListToDF(temp)
+          maxID <- temp$id[nrow(temp)]
+          timelineTweets %<>% bind_rows(., temp)
+          cat("Tweets Retrieved:", nrow(temp), "Cum Tweets: ", nrow(timelineTweets), "\n")
+        }
+      }, error = function(e){
+        cat("Problem with getting timeline tweets at ", i, "\n")
+      })
     }
     timelineTweets %<>% unique()
   }
@@ -112,27 +128,42 @@ twitterUpdate <- function(screenName, directory){
       dplyr::mutate(
         created = ymd_hms(created)
         , id = as.character(id)
+        , followerDate = ymd_hms(followerDate)
       )
-    # Read in latest list of followers
-    nFollowers <- me$getFollowers() %>%
-      twListToDF()
+    # Get latest list of followers from api
+    nFollowers <- me$getFollowers()
+    if(length(nFollowers) > 0){
+      nFollowers <- twListToDF(nFollowers) %>%
+        dplyr::left_join(., followers[,c("id", "followerDate")], by = "id") %>%
+        dplyr::rename(followerDateOrig = followerDate)
 
-    # Keep updated followers
-    nFollowers2 <- nFollowers %>%
-      dplyr::mutate(
-        new = "yes"
-      ) %>%
-      dplyr::select(screenName, new)
+      # Prepare a column to join to keep the followers stats up to date
+      nFollowers2 <- nFollowers %>%
+        dplyr::mutate(
+          newData = "yes"
+        ) %>%
+        dplyr::select(screenName, newData)
 
-    followers %<>%
-      left_join(., nFollowers2, by = "screenName") %>%
-      dplyr::filter(is.na(new)) %>%
-      dplyr::select(-new) %>%
-      bind_rows(., nFollowers) %>%
-      .[!duplicated(.$id),]
+      # Update the table
+      followers %<>%
+        left_join(., nFollowers2, by = "screenName") %>%
+        dplyr::filter(is.na(newData)) %>% # Only keep the new followers indicated by not having new data
+        bind_rows(., nFollowers) %>%
+        dplyr::mutate(
+          followerDate = case_when(
+            is.na(followerDateOrig) ~ dataTime
+            , T ~ followerDateOrig
+          )
+        ) %>%
+        dplyr::select(-followerDateOrig, -newData) %>%
+        .[!duplicated(.$id),]
+    }
   }else{
     followers <- me$getFollowers() %>%
-      twListToDF()
+      twListToDF() %>%
+      dplyr::mutate(
+        followerDate = dataTime
+      )
   }
   write_csv(followers, tFollowersFileNameFull) # Write to disk
   statusList$followers <- paste0("Wrote ", nrow(followers), " rows of follower data to file.")
@@ -148,27 +179,44 @@ twitterUpdate <- function(screenName, directory){
       dplyr::mutate(
         id = as.character(id)
         , created = ymd_hms(created)
+        , followingDate = ymd_hms(followingDate)
       )
 
-    # Read in latest list of following
-    nFollowing <- me$getFriends() %>%
-      twListToDF()
+    # Get latest list of following from api
+    nFollowing <- me$getFriends()
 
-    nFollowing2 <- nFollowing %>%
-      dplyr::mutate(
-        new = "yes"
-      ) %>%
-      dplyr::select(id, new)
+    if(length(nFollowing) > 0){
+      nFollowing <- twListToDF(nFollowing) %>%
+        dplyr::left_join(., following[,c("id", "followingDate")], by = "id") %>%
+        dplyr::rename(followingDateOrig = followingDate)
 
-    following %<>%
-      left_join(., nFollowing2, by = "id") %>%
-      dplyr::filter(is.na(new)) %>%
-      dplyr::select(-new) %>%
-      bind_rows(., nFollowing) %>%
-      .[!duplicated(.$id),]
+      # Prepare a column to join to keep the followers stats up to date
+      nFollowing2 <- nFollowing %>%
+        dplyr::mutate(
+          newData = "yes"
+        ) %>%
+        dplyr::select(id, newData)
+
+      # Update the table
+      following %<>%
+        left_join(., nFollowing2, by = "id") %>%
+        dplyr::filter(is.na(newData)) %>%
+        bind_rows(., nFollowing) %>%
+        dplyr::mutate(
+          followingDate = case_when(
+            is.na(followingDateOrig) ~ dataTime
+            , T ~ followingDateOrig
+          )
+        ) %>%
+        dplyr::select(-followingDateOrig, -newData) %>%
+        .[!duplicated(.$id),]
+    }
   }else{
     following <- me$getFriends() %>%
-      twListToDF()
+      twListToDF() %>%
+      dplyr::mutate(
+        followingDate = dataTime
+      )
   }
   write_csv(following, tFollowingFileNameFull) # Write to disk
   statusList$following <- paste0("Wrote ", nrow(following), " rows of following data to file.")
@@ -284,7 +332,7 @@ twitterUpdate <- function(screenName, directory){
     }
 
   }
-  if(!is.null(mentions)){
+  if(!is.null(nrow(mentions))){
     write_csv(mentions, tmFileNameFull)
     statusList$mentions <- paste0("Wrote ", nrow(mentions), " rows of mention data to file.")
   }else{

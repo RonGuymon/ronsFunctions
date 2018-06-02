@@ -62,6 +62,8 @@ twitterUpdate <- function(screenName, directory){
       dplyr::mutate(
         created = ymd_hms(created)
         , id = as.character(id)
+        , replyToSID = as.character(replyToSID)
+        , replyToUID = as.character(replyToUID)
       )
 
     # Only get the most recent 500 tweets
@@ -176,7 +178,13 @@ twitterUpdate <- function(screenName, directory){
   thFileName <- "twitterHashtags.csv"
   thFileNameFull <- paste0(directory, thFileName)
   if(thFileName %in% filesInDirectory){
-    hashies <- read.csv2(thFileNameFull, header = T, sep = ",", stringsAsFactors = F) # Read in old data
+    hashies <- read.csv2(thFileNameFull, header = T, sep = ",", stringsAsFactors = F) %>%  # Read in old data
+      dplyr::mutate(
+        id = as.character(id)
+        , created = ymd_hms(created)
+        , replyToUID = as.character(replyToUID)
+        , replyToSID = as.character(replyToSID)
+      )
 
     # Collect new hashtags
     hNew <- searchTwitter(paste0("#", screenName), n = 500)

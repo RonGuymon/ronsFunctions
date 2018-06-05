@@ -242,26 +242,31 @@ twitterUpdate <- function(screenName, directory){
         , created = ymd_hms(created)
         , replyToUID = as.character(replyToUID)
         , replyToSID = as.character(replyToSID)
+        , myid = paste0(text, as.character(created))
       )
 
     # Collect new hashtags
     hNew <- searchTwitter(paste0("#", screenName), n = 500)
     if(length(hashies) > 0){
       hNew <- hNew %>%
-        twListToDF()
+        twListToDF() %>%
+        dplyr::mutate(
+          myid = paste0(text, as.character(created))
+          )
 
       hNew2 <- hNew %>%
         dplyr::mutate(
           new = "yes"
         ) %>%
-        dplyr::select(id, new)
+        dplyr::select(myid, new)
 
       hashies %<>%
-        left_join(., hNew2, by = "id") %>%
+        left_join(., hNew2, by = "myid") %>%
         dplyr::filter(is.na(new)) %>%
         dplyr::select(-new) %>%
         bind_rows(., hNew) %>%
-        .[!duplicated(.$id),]
+        .[!duplicated(.$id),] %>%
+        dplyr::select(-myid)
     }
   }else{
     hashies <- searchTwitter(paste0("#", screenName), n = 500, since = "2012-01-01")
@@ -299,24 +304,30 @@ twitterUpdate <- function(screenName, directory){
         , created = ymd_hms(created)
         , replyToUID = as.character(replyToUID)
         , replyToSID = as.character(replyToSID)
+        , myid = paste0(text, as.character(created))
       )
 
     mNew <- searchTwitter(paste0("@", screenName), n = 500)
     if(length(mNew) > 0){
       mNew <- mNew %>%
-        twListToDF()
+        twListToDF() %>%
+        dplyr::mutate(
+          myid = paste0(text, as.character(created))
+          )
+
       mNew2 <- mNew %>%
         dplyr::mutate(
           new = "yes"
         ) %>%
-        dplyr::select(id, new)
+        dplyr::select(myid, new)
 
       mentions %<>%
-        left_join(., mNew2, by = "id") %>%
+        left_join(., mNew2, by = "myid") %>%
         dplyr::filter(is.na(new)) %>%
         dplyr::select(-new) %>%
         bind_rows(., mNew) %>%
-        .[!duplicated(.$id),]
+        .[!duplicated(.$myid),] %>%
+        dplyr::select(-myid)
     }
 
   }else{

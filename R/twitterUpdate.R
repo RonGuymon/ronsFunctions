@@ -242,7 +242,7 @@ twitterUpdate <- function(screenName, directory){
         , created = ymd_hms(created)
         , replyToUID = as.character(replyToUID)
         , replyToSID = as.character(replyToSID)
-        , myid = paste0(text, as.character(created))
+        , myid = paste0(screenName, as.character(created))
       )
 
     # Collect new hashtags
@@ -251,7 +251,7 @@ twitterUpdate <- function(screenName, directory){
       hNew <- hNew %>%
         twListToDF() %>%
         dplyr::mutate(
-          myid = paste0(text, as.character(created))
+          myid = paste0(screenName, as.character(created))
           )
 
       hNew2 <- hNew %>%
@@ -304,7 +304,7 @@ twitterUpdate <- function(screenName, directory){
         , created = ymd_hms(created)
         , replyToUID = as.character(replyToUID)
         , replyToSID = as.character(replyToSID)
-        , myid = paste0(text, as.character(created))
+        , myid = paste0(screenName, as.character(created))
       )
 
     mNew <- searchTwitter(paste0("@", screenName), n = 500)
@@ -312,7 +312,7 @@ twitterUpdate <- function(screenName, directory){
       mNew <- mNew %>%
         twListToDF() %>%
         dplyr::mutate(
-          myid = paste0(text, as.character(created))
+          myid = paste0(screenName, as.character(created))
           )
 
       mNew2 <- mNew %>%

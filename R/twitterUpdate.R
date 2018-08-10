@@ -247,7 +247,7 @@ twitterUpdate <- function(screenName, directory){
 
     # Collect new hashtags
     hNew <- searchTwitter(paste0("#", screenName), n = 500)
-    if(length(hashies) > 0){
+    if(length(hashies) > 0 & length(hNew) > 0){
       hNew <- hNew %>%
         twListToDF() %>%
         dplyr::mutate(
@@ -268,7 +268,7 @@ twitterUpdate <- function(screenName, directory){
         .[!duplicated(.$id),] %>%
         dplyr::select(-myid)
     }
-  }else{
+  }else if(length(hashies) == 0){
     hashies <- searchTwitter(paste0("#", screenName), n = 500, since = "2012-01-01")
     if(length(hashies) > 0){
       hashies <- hashies %>%

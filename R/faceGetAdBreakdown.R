@@ -1,5 +1,5 @@
-#' @title Get Facebook Ad Ids
-#' @description This function is useful to get a brief overview of the ads.
+#' @title Get Facebook Ad Details with Breakdowns
+#' @description This function is useful to get details of ads. Returns a lot more data because it's broken down.
 #'
 #' This function requires that you set up an app on Facebook, and that you have access to the appropriate adAccount. Customers should give you access to your personal Facebook account. They can do it through business.facebook.com.
 #' Video about what the api does: https://www.facebook.com/marketingdevelopers/videos/772240782890323/
@@ -19,18 +19,29 @@
 #' @param accessToken The quoted access token. Keep this safe and secure.
 #' @param sinceDate Quoted beginning date of when to aggregate data in the format of "2018-11-09".
 #' @param untilDate Quoted end date of when to aggregate data in the format of "2018-11-09".
+#' @param level Defaults to 'ad'
+#' @param breakdowns Defaults to age,gender. Can also be one or more of the following: country, dma, frequency_value, hourly_stats_aggregated_by_advertiser_time_zone, hourly_stats_aggregated_by_audience_time_zone, impression_device, place_page_id, publisher_platform, platform_position, device_platform, product_id, region, ad_format_asset, body_asset, call_to_action_asset, description_asset, image_asset, link_url_asset, title_asset, video_asset
+#' @param limit Defaults to 10000. Can be any other integer. Larger numbers may cause a rate filter to kick in, which seems to last for about 10 minutes.
+#' @param fields Defaults to ad_id,objective,cpc,cpp,ctr,impressions,spend. There are many others.
 #' @param verbose Defaults to TRUE, and will report the details of the call.
-#' @return Returns a dataframe with a row for each ad. All columns are character.
+#' @return Returns a dataframe with a row for each ad/breakdown/date combination. All columns are character.
 #' @export
-faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate, verbose = T){
+faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
+                               , level = 'ad'
+                               , breakdowns = 'age,gender'
+                               , limit = 10000
+                               , fields = 'ad_id,objective,cpc,cpp,ctr,impressions,spend'
+                               , verbose = T
+                               ){
   if(verbose == T){
     r <- httr::GET(paste0("https://graph.facebook.com/v3.2/act_"
                           , adAccount
                           , "/insights?"
-                          , "level=ad&"
-                          , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
-                          , 'limit=10000&'
-                          , 'fields=ad_id,ad_name,adset_id,adset_name,campaign_name,impressions,spend&'
+                          , "level=",level,"&"
+                          , 'time_range={"since":"', daties[i+1], '","until":"', daties[i], '"}&'
+                          , 'breakdowns=',breakdowns,'&' #hourly_stats_aggregated_by_audience_time_zone   age,gender publisher_platform
+                          , 'limit=',limit,'&'
+                          , 'fields=',fields,'&'
                           , "access_token=", accessToken)
                    , verbose()
     )
@@ -38,10 +49,11 @@ faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate, verbose = 
     r <- httr::GET(paste0("https://graph.facebook.com/v3.2/act_"
                           , adAccount
                           , "/insights?"
-                          , "level=ad&"
-                          , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
-                          , 'limit=250&'
-                          , 'fields=ad_id,ad_name,adset_id,adset_name,campaign_name,impressions,spend&'
+                          , "level=",level,"&"
+                          , 'time_range={"since":"', daties[i+1], '","until":"', daties[i], '"}&'
+                          , 'breakdowns=',breakdowns,'&' #hourly_stats_aggregated_by_audience_time_zone   age,gender publisher_platform
+                          , 'limit=',limit,'&'
+                          , 'fields=',fields,'&'
                           , "access_token=", accessToken)
                    # , verbose()
     )
@@ -50,4 +62,5 @@ faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate, verbose = 
     fromJSON() %>%
     .$data
   return(df)
+
 }

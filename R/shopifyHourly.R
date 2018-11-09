@@ -11,7 +11,7 @@
 #' @param shopPath The quoted path. The path is something like "myStoreName.com"
 #' @param hourSequence Vector of timestamps ordered from most recent to oldest. Doesn't have to be in hourly increments.
 #' @param consecutiveZeros Integer representing the number of consecutive times in which no data is returned before stopping.
-#' @return List the contains a dataframe with the test, training, and forecasted data (dataFor), a dataframe with only the forecasted data (dataForOnly), variable importance plot if randomForest is selected (viPlot), loss (either mape or mae), model evaluation plot (modelEvalPlot), and year over year dataframe including the forecast (yoySales).
+#' @return A dataframe with a row for each item in the transaction. Some columns are summary for the whole order.
 #' @export
 
 shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZeros){

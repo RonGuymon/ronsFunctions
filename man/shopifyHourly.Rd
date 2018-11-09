@@ -18,7 +18,7 @@ shopifyHourly(shopKey, shopPw, shopPath, hourSequence, consecutiveZeros)
 \item{consecutiveZeros}{Integer representing the number of consecutive times in which no data is returned before stopping.}
 }
 \value{
-List the contains a dataframe with the test, training, and forecasted data (dataFor), a dataframe with only the forecasted data (dataForOnly), variable importance plot if randomForest is selected (viPlot), loss (either mape or mae), model evaluation plot (modelEvalPlot), and year over year dataframe including the forecast (yoySales).
+A dataframe with a row for each item in the transaction. Some columns are summary for the whole order.
 }
 \description{
 This function requires a Shopify Key, Password, and path.

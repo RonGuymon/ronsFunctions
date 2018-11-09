@@ -38,7 +38,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
                           , adAccount
                           , "/insights?"
                           , "level=",level,"&"
-                          , 'time_range={"since":"', daties[i+1], '","until":"', daties[i], '"}&'
+                          , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
                           , 'breakdowns=',breakdowns,'&' #hourly_stats_aggregated_by_audience_time_zone   age,gender publisher_platform
                           , 'limit=',limit,'&'
                           , 'fields=',fields,'&'
@@ -50,7 +50,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
                           , adAccount
                           , "/insights?"
                           , "level=",level,"&"
-                          , 'time_range={"since":"', daties[i+1], '","until":"', daties[i], '"}&'
+                          , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
                           , 'breakdowns=',breakdowns,'&' #hourly_stats_aggregated_by_audience_time_zone   age,gender publisher_platform
                           , 'limit=',limit,'&'
                           , 'fields=',fields,'&'

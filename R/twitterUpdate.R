@@ -252,7 +252,7 @@ twitterUpdate <- function(screenName, directory){
         twListToDF() %>%
         dplyr::mutate(
           myid = paste0(screenName, as.character(created))
-          )
+        )
 
       hNew2 <- hNew %>%
         dplyr::mutate(
@@ -313,7 +313,7 @@ twitterUpdate <- function(screenName, directory){
         twListToDF() %>%
         dplyr::mutate(
           myid = paste0(screenName, as.character(created))
-          )
+        )
 
       mNew2 <- mNew %>%
         dplyr::mutate(

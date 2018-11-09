@@ -74,6 +74,7 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
 
     colnames(allo) <- gsub("orders\\.", "", colnames(allo))
     allo$user_agent <- allo$client_details$user_agent
+    allo$total_spent <- allo$customer$total_spent
     tryCatch({
       ba <- allo$billing_address %>%
         dplyr::select(city, zip, province_code, country_code, latitude, longitude)
@@ -126,7 +127,7 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
 
     varsToKeep <- c("id", "email", "contact_email", "created_at", "number", "gateway", "total_line_items_price",
                     "total_weight", "financial_status", "fulfillment_status", "referring_site", "landing_site",
-                    "processing_method", "test")
+                    "processing_method", "test", "total_spent")
     allo <- allo[,which(colnames(allo) %in% varsToKeep)] %>%
       dplyr::filter(test == F) # Removes rows that are test transactions
     allo %<>% bind_cols(., ba)
@@ -175,12 +176,6 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
         , ItemNumber = as.character(ItemNumber)
         , line_id = OrderID, ItemNumber, OrderDate
         , Source = "Shopify"
-        , mdy = lubridate::ymd(substr(as.character(OrderDate), 1, 10))
-        , hod = lubridate::hour(OrderDate)
-        , dom = lubridate::mday(OrderDate)
-        , dow = lubridate::wday(OrderDate)
-        , moy = lubridate::month(OrderDate)
-        , y = lubridate::year(OrderDate)
       ) %>%
       dplyr::filter(test == F) %>%
       dplyr::select(-test, -header)

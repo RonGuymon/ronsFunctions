@@ -136,7 +136,7 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
 
     varsToKeep <- c("id", "email", "contact_email", "created_at", "number", "gateway", "total_line_items_price",
                     "total_weight", "financial_status", "fulfillment_status", "referring_site", "landing_site",
-                    "processing_method", "test", "total_spent")
+                    "processing_method", "test", "total_spent", "refundAmount")
     allo <- allo[,which(colnames(allo) %in% varsToKeep)] %>%
       dplyr::filter(test == F) # Removes rows that are test transactions
     allo %<>% bind_cols(., ba)

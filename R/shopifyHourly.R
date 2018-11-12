@@ -75,6 +75,15 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
     colnames(allo) <- gsub("orders\\.", "", colnames(allo))
     allo$user_agent <- allo$client_details$user_agent
     allo$total_spent <- allo$customer$total_spent
+
+    # Refund amount (negative number)
+    allo$refundAmount <- 0
+    for(k in 1:nrow(allo)){
+      if(!is.null(allo$refunds[[k]]$order_adjustments[[1]]$amount)){
+        allo$refundAmount[k] <- allo$refunds[[k]]$order_adjustments[[1]]$amount
+      }
+    }
+
     tryCatch({
       ba <- allo$billing_address %>%
         dplyr::select(city, zip, province_code, country_code, latitude, longitude)

@@ -85,6 +85,9 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
     }
 
     tryCatch({
+      if(exists("ba")){
+        rm(ba)
+      }
       ba <- allo$billing_address %>%
         dplyr::select(city, zip, province_code, country_code, latitude, longitude)
       colnames(ba) <- paste0("billing_", colnames(ba))
@@ -93,6 +96,9 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
       cat("No Billing address information")
     })
     tryCatch({
+      if(exists("sa")){
+        rm(sa)
+      }
       sa <- allo$shipping_address %>%
         dplyr::select(city, zip, province_code, country_code, latitude, longitude)
       colnames(sa) <- paste0("shipping_", colnames(sa))
@@ -102,12 +108,18 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
     })
 
     # Collapse line items and categories to a single row
+    if(exists("all_items")){
+      rm(all_items)
+    }
     all_items <- lapply(allo$line_items, lif) %>% rbindlist()
     if(ncol(all_items) > 0){
       colnames(all_items) <- c("all_order_titles", "all_order_categories")
     }
 
     # Grab and collapse discount codes, amounts, and types to a single row
+    if(exists("all_discounts")){
+      rm(all_discounts)
+    }
     all_discounts <- lapply(allo$discount_codes, ld) %>% rbindlist()
     # colnames(all_discounts) <- paste0("order_discount_", colnames(all_discounts))
 

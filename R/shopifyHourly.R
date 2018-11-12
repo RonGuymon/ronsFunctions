@@ -77,10 +77,10 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
     allo$total_spent <- allo$customer$total_spent
 
     # Refund amount (negative number)
-    allo$refundAmount <- 0
+    allo$refundAmount <- "0"
     for(k in 1:nrow(allo)){
       if(!is.null(allo$refunds[[k]]$order_adjustments[[1]]$amount)){
-        allo$refundAmount[k] <- allo$refunds[[k]]$order_adjustments[[1]]$amount %>% as.numeric()
+        allo$refundAmount[k] <- as.character(allo$refunds[[k]]$order_adjustments[[1]]$amount)
       }
     }
 

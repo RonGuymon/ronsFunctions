@@ -80,7 +80,7 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
     allo$refundAmount <- 0
     for(k in 1:nrow(allo)){
       if(!is.null(allo$refunds[[k]]$order_adjustments[[1]]$amount)){
-        allo$refundAmount[k] <- allo$refunds[[k]]$order_adjustments[[1]]$amount
+        allo$refundAmount[k] <- allo$refunds[[k]]$order_adjustments[[1]]$amount %>% as.numeric()
       }
     }
 

@@ -64,7 +64,7 @@ shopifyHourly <- function(shopKey, shopPw, shopPath, hourSequence, consecutiveZe
       if(hour_n %% 2 == 0){
         Sys.sleep(1)
       }
-      if(no_data_indicator >= 100){
+      if(no_data_indicator >= consecutiveZeros){
         break()
       }else{
         next()}

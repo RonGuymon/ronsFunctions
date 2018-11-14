@@ -22,7 +22,7 @@
 #' @param level Defaults to 'ad'
 #' @param breakdowns Defaults to age,gender. Can also be one or more of the following: country, dma, frequency_value, hourly_stats_aggregated_by_advertiser_time_zone, hourly_stats_aggregated_by_audience_time_zone, impression_device, place_page_id, publisher_platform, platform_position, device_platform, product_id, region, ad_format_asset, body_asset, call_to_action_asset, description_asset, image_asset, link_url_asset, title_asset, video_asset
 #' @param limit Defaults to 10000. Can be any other integer. Larger numbers may cause a rate filter to kick in, which seems to last for about 10 minutes.
-#' @param fields Defaults to ad_id,objective,cpc,cpp,ctr,impressions,spend. There are many others.
+#' @param fields Defaults to ad_id,objective,reach,impressions,spend,action_values,actions,clicks. There are many others.
 #' @param verbose Defaults to TRUE, and will report the details of the call.
 #' @return Returns a dataframe with a row for each ad/breakdown/date combination. All columns are character.
 #' @export
@@ -30,7 +30,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
                                , level = 'ad'
                                , breakdowns = 'age,gender'
                                , limit = 10000
-                               , fields = 'ad_id,objective,cpc,cpp,ctr,impressions,spend'
+                               , fields = 'ad_id,objective,reach,impressions,spend,action_values,actions,clicks'
                                , verbose = T
                                ){
   if(verbose == T){
@@ -62,7 +62,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
     fromJSON() %>%
     .$data
 
-  if("actions" %in% fields){
+  if(grepl("actions", x = fields)){
     actions <- data.frame()
     for(i in 1:nrow(df)){
       if(!is.null(df$actions[i][[1]])){
@@ -80,7 +80,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
     df %<>% bind_cols(actions)
   }
 
-  if("action_values" %in% fields){
+  if(grepl("action_values", x = fields)){
     actionValues <- data.frame()
     for(i in 1:nrow(df)){
       if(!is.null(df$action_values[i][[1]])){

@@ -61,6 +61,42 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
   df <- content(r, as = "text") %>%
     fromJSON() %>%
     .$data
+
+  if("actions" %in% fields){
+    actions <- data.frame()
+    for(i in 1:nrow(df)){
+      if(!is.null(df$actions[i][[1]])){
+        a <- df$actions[i][[1]] %>% t() %>% data.frame(stringsAsFactors = F)
+        colnames(a) <- gsub("\\.", "__",a[1,]) %>% paste0(., "_a")
+        a <- a[-1,]
+      }else{
+        a <- data.frame(nada1 = NA, nada2 = NA)
+      }
+      actions %<>% bind_rows(a)
+    }
+    actions$nada1 <- NULL
+    actions$nada2 <- NULL
+    df$actions <- NULL
+    df %<>% bind_cols(actions)
+  }
+
+  if("action_values" %in% fields){
+    actionValues <- data.frame()
+    for(i in 1:nrow(df)){
+      if(!is.null(df$action_values[i][[1]])){
+        av <- df$action_values[i][[1]] %>% t() %>% data.frame(stringsAsFactors = F)
+        colnames(av) <- gsub("\\.", "__",av[1,]) %>% paste0(., "_a")
+        av <- av[-1,]
+      }else{
+        av <- data.frame(nada1 = NA, nada2 = NA)
+      }
+      actionValues %<>% bind_rows(a)
+    }
+    actionValues$nada1 <- NULL
+    actionValues$nada2 <- NULL
+    df$action_values <- NULL
+    df %<>% bind_cols(actionValues)
+  }
   return(df)
 
 }

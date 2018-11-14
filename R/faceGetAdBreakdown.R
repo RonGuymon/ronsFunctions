@@ -85,7 +85,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
     for(i in 1:nrow(df)){
       if(!is.null(df$action_values[i][[1]])){
         av <- df$action_values[i][[1]] %>% t() %>% data.frame(stringsAsFactors = F)
-        colnames(av) <- gsub("\\.", "__",av[1,]) %>% paste0(., "_a")
+        colnames(av) <- gsub("\\.", "__",av[1,]) %>% paste0(., "_av")
         av <- av[-1,]
       }else{
         av <- data.frame(nada1 = NA, nada2 = NA)

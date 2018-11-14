@@ -90,7 +90,7 @@ faceGetAdBreakdown <- function(adAccount, accessToken, sinceDate, untilDate
       }else{
         av <- data.frame(nada1 = NA, nada2 = NA)
       }
-      actionValues %<>% bind_rows(a)
+      actionValues %<>% bind_rows(av)
     }
     actionValues$nada1 <- NULL
     actionValues$nada2 <- NULL

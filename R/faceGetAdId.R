@@ -19,18 +19,23 @@
 #' @param accessToken The quoted access token. Keep this safe and secure.
 #' @param sinceDate Quoted beginning date of when to aggregate data in the format of "2018-11-09".
 #' @param untilDate Quoted end date of when to aggregate data in the format of "2018-11-09".
+#' @param limit Defaults to 10000. Can be any other integer. Larger numbers may cause a rate filter to kick in, which seems to last for about 10 minutes.
+#' @param fields Defaults to ad_id,objective,reach,impressions,spend,action_values,actions,clicks. There are many others.
 #' @param verbose Defaults to TRUE, and will report the details of the call.
 #' @return Returns a dataframe with a row for each ad. All columns are character.
 #' @export
-faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate, verbose = T){
+faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate
+                        , limit = 10000
+                        , fields = 'campaign_id,campaign_name,adset_name,adset_id,ad_name,ad_id,reach,impressions,spend,clicks',
+                        verbose = T){
   if(verbose == T){
     r <- httr::GET(paste0("https://graph.facebook.com/v3.2/act_"
                           , adAccount
                           , "/insights?"
                           , "level=ad&"
                           , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
-                          , 'limit=10000&'
-                          , 'fields=ad_id,ad_name,adset_id,adset_name,campaign_name,impressions,spend&'
+                          , 'limit=',limit,'&'
+                          , 'fields=',fields,'&'
                           , "access_token=", accessToken)
                    , verbose()
     )
@@ -40,8 +45,8 @@ faceGetAdId <- function(adAccount, accessToken, sinceDate, untilDate, verbose = 
                           , "/insights?"
                           , "level=ad&"
                           , 'time_range={"since":"', sinceDate, '","until":"', untilDate, '"}&'
-                          , 'limit=250&'
-                          , 'fields=ad_id,ad_name,adset_id,adset_name,campaign_name,impressions,spend&'
+                          , 'limit=',limit,'&'
+                          , 'fields=',fields,'&'
                           , "access_token=", accessToken)
                    # , verbose()
     )
